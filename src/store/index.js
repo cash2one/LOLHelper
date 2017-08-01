@@ -12,10 +12,10 @@ const VIDEOTOKEN = {
 };
 
 //开发模式下手动设置为true，生产环境下手动设置为false
-const DEBUG_MODE = true;   
+const DEBUG_MODE = false;   
 const PREFIX = DEBUG_MODE ? "/api" : "http://lolapi.games-cube.com";
 const PREFIX_2 = DEBUG_MODE ? "/videoApi" : "http://infoapi.games-cube.com";
-const PREFIX_3 = DEBUG_MODE ? "/newsApi" : "http://qt.qq.com";
+const PREFIX_3 = DEBUG_MODE ? "/newsApi" : "http://lijiawei.com.cn:3333";
 
 const API = {
     playersSearch : `${PREFIX}/UserArea?keyword=`,
@@ -28,8 +28,8 @@ const API = {
     herosFree : `${PREFIX}/Free`,
     heroDetail : `${PREFIX}/GetChampionDetail?champion_id=`,
     videoList : `${PREFIX_2}/GetNewstVideos`,
-    bannerNews:`${PREFIX_3}/static/pages/news/phone/c13_list_1.shtml`,
-    newstNews:`${PREFIX_3}/php_cgi/news/php/varcache_getnews.php?id=12&page=`,
+    bannerNews:`${PREFIX_3}/BannerNews`,
+    newstNews:`${PREFIX_3}/NewstNews?p=`
 };
 
 const store = new Vuex.Store({
@@ -174,8 +174,8 @@ const store = new Vuex.Store({
         GET_BANNER_NEWS(context , object){
             axios.get(API.bannerNews)
                 .then(function(res){
-                    if(res.statusText = "OK"){
-                        context.commit("get_banner_news",res.data.list);
+                    if(res.statusTxt = "OK"){
+                        context.commit("get_banner_news",res.data.data);
                     }
                 }).catch(function(err){
                     console.log(err);
@@ -185,7 +185,7 @@ const store = new Vuex.Store({
             var p = object.p;
             axios.get(API.newstNews + p + '&plat=ios&version=33').then((res) => {
                 if (res.statusText == "OK") {
-                    context.commit("get_newst_news",res.data.list);
+                    context.commit("get_newst_news",res.data.data);
                 }
             })
         },

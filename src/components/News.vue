@@ -2,7 +2,7 @@
   <div class="news">
        <div class="news-banner">
         <div v-for="news in bannerNews" :key="news.article_url" class="news-banner-wrap">
-            <a :href="news.article_url">
+            <a :href= "'http://qt.qq.com/php_cgi/news/php/varcache_article.php?id='+ news.article_id + '&version=$PROTO_VERSION$'">
                 <img :src="news.image_url_big" class="news-banner-wrap-item" alt="">
             </a>
         </div>

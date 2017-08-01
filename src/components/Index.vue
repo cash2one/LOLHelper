@@ -42,7 +42,6 @@ export default {
       handleChange(e){
             var val = e.currentTarget.getAttribute("name");
             if(val != this.$route.name){
-                this.$router.push({name : val});
                 var t = e.currentTarget.getAttribute("t");
                 for(let i=0; i<4;i++){
                     if(this.listArr[i] == 1){
@@ -52,30 +51,31 @@ export default {
                 this.listArr[parseInt(t)] = 1;
                 switch(t){
                     case "0":
-                        e.currentTarget.firstChild.setAttribute("src","../../static/img/news-active.png");
-                        e.currentTarget.parentNode.children[1].firstChild.setAttribute("src","../../static/img/players.png");
-                        e.currentTarget.parentNode.children[2].firstChild.setAttribute("src","../../static/img/heros.png");
+                        e.currentTarget.firstChild.setAttribute("src","../static/img/news-active.png");
+                        e.currentTarget.parentNode.children[1].firstChild.setAttribute("src","../static/img/players.png");
+                        e.currentTarget.parentNode.children[2].firstChild.setAttribute("src","../static/img/heros.png");
                         e.currentTarget.parentNode.children[3].firstChild.setAttribute("src","../static/img/videos.png");
                         break;
                     case "1":
-                        e.currentTarget.firstChild.setAttribute("src","../../static/img/players-active.png");
-                        e.currentTarget.parentNode.children[0].firstChild.setAttribute("src","../../static/img/news.png");
-                        e.currentTarget.parentNode.children[2].firstChild.setAttribute("src","../../static/img/heros.png");
+                        e.currentTarget.firstChild.setAttribute("src","../static/img/players-active.png");
+                        e.currentTarget.parentNode.children[0].firstChild.setAttribute("src","../static/img/news.png");
+                        e.currentTarget.parentNode.children[2].firstChild.setAttribute("src","../static/img/heros.png");
                         e.currentTarget.parentNode.children[3].firstChild.setAttribute("src","../static/img/videos.png");
                         break;
                     case "2":
-                        e.currentTarget.firstChild.setAttribute("src","../../static/img/heros-active.png");
-                        e.currentTarget.parentNode.children[1].firstChild.setAttribute("src","../../static/img/players.png");
-                        e.currentTarget.parentNode.children[0].firstChild.setAttribute("src","../../static/img/news.png");
+                        e.currentTarget.firstChild.setAttribute("src","../static/img/heros-active.png");
+                        e.currentTarget.parentNode.children[1].firstChild.setAttribute("src","../static/img/players.png");
+                        e.currentTarget.parentNode.children[0].firstChild.setAttribute("src","../static/img/news.png");
                         e.currentTarget.parentNode.children[3].firstChild.setAttribute("src","../static/img/videos.png");
                         break;
                     default:
-                        e.currentTarget.firstChild.setAttribute("src","../../static/img/videos-active.png");
-                        e.currentTarget.parentNode.children[1].firstChild.setAttribute("src","../../static/img/players.png");
-                        e.currentTarget.parentNode.children[2].firstChild.setAttribute("src","../../static/img/heros.png");
+                        e.currentTarget.firstChild.setAttribute("src","../static/img/videos-active.png");
+                        e.currentTarget.parentNode.children[1].firstChild.setAttribute("src","../static/img/players.png");
+                        e.currentTarget.parentNode.children[2].firstChild.setAttribute("src","../static/img/heros.png");
                         e.currentTarget.parentNode.children[0].firstChild.setAttribute("src","../static/img/news.png");
                         break;
                 }
+                this.$router.push({name : val});
             }
       }
   }

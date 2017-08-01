@@ -45,7 +45,7 @@ module.exports = {
         }
       },
       '/newsApi/*':{
-        target:"http://qt.qq.com",
+        target:"http://lijiawei.com.cn:3333",
         changeOrigin:true,
         secure:false,
         pathRewrite:{
