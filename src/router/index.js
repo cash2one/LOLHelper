@@ -76,6 +76,7 @@ export default new Router({
     //         return savedPosition;
     //     }
     // },
+    base:"/lol",
     routes : [
         {
             path : "/",
