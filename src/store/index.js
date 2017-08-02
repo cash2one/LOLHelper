@@ -231,7 +231,8 @@ const store = new Vuex.Store({
             state.videoList = data;
         },
         get_banner_news(state , data){
-            state.bannerNews = data;
+            state.bannerNews = data.slice(0,5);
+            console.log(data);
         },
         get_newst_news(state , data){
             state.newstNews = state.newstNews.concat(data);
