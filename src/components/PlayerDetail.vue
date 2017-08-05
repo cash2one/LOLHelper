@@ -71,7 +71,6 @@ export default {
     return{
         TGPIcon:TGPIcon,
         iconid:"",
-        p:0,
         pics:pics,
     }
   },
@@ -101,10 +100,8 @@ export default {
         let params = {
             qquin : this.$route.params.qquin,
             vaid : this.$route.params.vaid,
-            p : this.p
         };
         this.$store.dispatch("GET_COMBAT_LIST",params);
-        console.log(this.$store);
     },
     // ...mapMutations(["empty_combat_list"])
   },

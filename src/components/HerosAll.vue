@@ -1,12 +1,12 @@
 <template>
   <div class="herosAll">
-    <div class="herosAll-list">
-        <div class="herosAll-list-item" v-for="item in herosAll" :key="item.id" @click="getHeroDetail(item.id)">
-            <img :src="pics + item.id + '.png'" alt="">
+    <div class="herosAll-list" v-if="herosAll !== null">
+        <div class="herosAll-list-item" v-for="item in herosAll" :key="item.key" @click="getHeroDetail(item.key)">
+             <img :src="pics + item.key + '.png'" alt="">
             <div class="herosAll-list-item-info">
                 <p>{{item.title}}</p>
-                <p>{{item.cname}}</p>
-            </div>
+                <p>{{item.name}}</p>
+            </div> 
         </div>
     </div>
   </div>

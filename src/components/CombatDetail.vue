@@ -93,7 +93,6 @@ export default {
   },
   computed:{
     combatDetail(){
-        console.log(this.$store.state.combatDetail);
         return this.$store.state.combatDetail;
     },
     ...mapGetters(["win","lose"]),
@@ -108,7 +107,6 @@ export default {
               vaid : this.$route.params["vaid"],
               gameid : this.$route.params["gameid"]
           };
-
           this.$store.dispatch("GET_COMBAT_DETAIL",params);
       }
   },

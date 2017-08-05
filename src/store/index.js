@@ -5,31 +5,29 @@ import axios from 'axios';
 Vue.use(Vuex);
 
 const TOKEN = {
-    "DAIWAN-API-TOKEN": "15110-57E6F-5575D-FA06A"
+    "DAIWAN-API-TOKEN": "B0681-094A4-9A414-A524B"
 };
 const VIDEOTOKEN = {
-    "DAIWAN-API-TOKEN":"F20EE-024EE-505D0-40230"
+    "DAIWAN-API-TOKEN":"6656F-6D566-5BFB4-FF645"
 };
 
 //开发模式下手动设置为true，生产环境下手动设置为false
 const DEBUG_MODE = false;   
-const PREFIX = DEBUG_MODE ? "/api" : "http://lolapi.games-cube.com";
-const PREFIX_2 = DEBUG_MODE ? "/videoApi" : "http://infoapi.games-cube.com";
-const PREFIX_3 = DEBUG_MODE ? "/newsApi" : "http://lijiawei.com.cn:3333";
+const PREFIX = DEBUG_MODE ? "/api" : "http://lijiawei.com.cn:3333";
 
 const API = {
     playersSearch : `${PREFIX}/UserArea?keyword=`,
-    playExtInfo: `${PREFIX}/UserExtInfo?qquin=`,
+    playExtInfo: `${PREFIX}/UserHonor?qquin=`,
     playerDetail: `${PREFIX}/UserHotInfo?qquin=`,
     getTierQueue: `${PREFIX}/GetTierQueue?tier=`,
     combatList: `${PREFIX}/CombatList?qquin=`,
-    combatDetail : `${PREFIX}/GameDetail?qquin=`,
-    herosAll : `${PREFIX}/champion`,
+    combatDetail : `${PREFIX}/CombatDetail?qquin=`,
+    herosAll : `${PREFIX}/Champion`,
     herosFree : `${PREFIX}/Free`,
-    heroDetail : `${PREFIX}/GetChampionDetail?champion_id=`,
-    videoList : `${PREFIX_2}/GetNewstVideos`,
-    bannerNews:`${PREFIX_3}/BannerNews`,
-    newstNews:`${PREFIX_3}/NewstNews?p=`
+    heroDetail : `${PREFIX}/HeroDetail?championid=`,
+    videoList : `${PREFIX}/VideoList`,
+    bannerNews:`${PREFIX}/BannerNews`,
+    newstNews:`${PREFIX}/NewstNews?p=`
 };
 
 const store = new Vuex.Store({
@@ -55,10 +53,8 @@ const store = new Vuex.Store({
     },
     actions:{
         //搜索召唤师
-        get_players_search(context , object){
-            axios.get(API.playersSearch + object.username , {
-                headers:TOKEN
-            }).then(function(res){
+        GET_PLAYERS_SEARCH(context , object){
+            axios.get(API.playersSearch + object.username).then(function(res){
                 if(res.data.code == 0){
                     context.commit("get_players_search" , res.data.data);
                 }
@@ -71,9 +67,7 @@ const store = new Vuex.Store({
             let qquin = object.qquin;
             let vaid = object.vaid;
 
-            axios.get(API.playExtInfo + qquin + '&vaid=' + vaid , {
-                headers:TOKEN
-            }).then(function(res){
+            axios.get(API.playExtInfo + qquin + '&areaid=' + vaid).then(function(res){
                 if(res.data.code == 0){
                     context.commit("get_player_fight_detail",res.data.data);
                 }
@@ -85,52 +79,43 @@ const store = new Vuex.Store({
             let qquin = object.qquin;
             let vaid = object.vaid;
 
-            axios.get(API.playerDetail + qquin + '&vaid=' + vaid , {
-                headers:TOKEN
-            }).then(function(res){
-                if(res.data.code === 0){
-                    var data1 = res.data.data[0];
-                    axios.get(API.getTierQueue + data1.tier + "&queue=" + data1.queue , {
-                        headers:TOKEN
-                    }).then(function(res){
-                        if(res.data.code == 0){
-                            var data2 = res.data.data[0].return;
-                            context.commit("get_player_base_detail",{data1 , data2});
-                        }
-                    })
+            axios.get(API.playerDetail + qquin + '&areaid=' + vaid).then(function(res){
+                if(res.data.code == 0){
+                    var data1 = res.data.data;
+                    context.commit("get_player_base_detail",{data1 , data1});
+                    // axios.get(API.getTierQueue + data1.tier + "&queue=" + data1.queue , {
+                    //     headers:TOKEN
+                    // }).then(function(res){
+                    //     if(res.data.code == 0){
+                    //         var data2 = res.data.data[0].return;
+                    //         context.commit("get_player_base_detail",{data1 , data2});
+                    //     }
+                    // })
                 }
             }).catch(function(err){
                  console.log(err);
               });
         },
         GET_COMBAT_LIST(context, object) {
-            axios.get(API.combatList + object.qquin + '&vaid=' + object.vaid + '&p=' + object.p, {
-                headers: TOKEN
-            }).then((res) => {
+            axios.get(API.combatList + object.qquin + '&areaid=' + object.vaid).then((res) => {
                 if (res.data.code == 0) {
-                    context.commit('get_combat_list', res.data.data[0].battle_list);
-                    console.log(res.data);
+                    context.commit('get_combat_list', res.data.data);
                 }
             }).catch(function(err){
                 console.log(err);
             });
         },
         GET_COMBAT_DETAIL(context , object){
-            axios.get(API.combatDetail + object.qquin + "&vaid=" + object.vaid + "&gameid=" + object.gameid , {
-                headers : TOKEN
-            }).then(function(res){
+            axios.get(API.combatDetail + object.qquin + "&areaid=" + object.vaid + "&gameid=" + object.gameid).then(function(res){
                 if(res.data.code == 0){
-                    context.commit("get_combat_detail",res.data.data[0].battle);
-                    console.log(res.data.data[0].battle);
+                    context.commit("get_combat_detail",res.data.data);
                 }
             }).catch(function(err){
                 console.log(err);
             });
         },
         GET_HEROS_ALL(context){
-            axios.get(API.herosAll,{
-                headers : TOKEN
-            }).then(function(res){
+            axios.get(API.herosAll).then(function(res){
                 if(res.data.code == 0){
                     context.commit("get_heros_all",res.data.data);
                 }
@@ -139,31 +124,25 @@ const store = new Vuex.Store({
             });
         },
         GET_HEROS_FREE(context){
-            axios.get(API.herosFree,{
-                headers : TOKEN
-            }).then(function(res){
+            axios.get(API.herosFree).then(function(res){
                 if(res.data.code == 0){
-                    context.commit("get_heros_free",res.data.data[0]);
+                    context.commit("get_heros_free",res.data.data);
                 }
             }).catch(function(err){
                 console.log(err);
             });
         },
         GET_HERO_DETAIL(context , object){
-            axios.get(API.heroDetail + object.id , {
-                headers : TOKEN
-            }).then(function(res){
+            axios.get(API.heroDetail + object.id).then(function(res){
                 if(res.data.code == 0){
-                    context.commit("get_hero_detail",res.data.data[0]);
+                    context.commit("get_hero_detail",res.data.data);
                 }
             }).catch(function(err){
                 console.log(err);
             });
         },
         GET_VIDEO_LIST(context , object){
-            axios.get(API.videoList + '?p=' + object.p , {
-                headers : VIDEOTOKEN
-            }).then(function(res){
+            axios.get(API.videoList).then(function(res){
                 if(res.data.code == 0){
                     context.commit("get_video_list",res.data.data);
                 }
@@ -172,10 +151,18 @@ const store = new Vuex.Store({
             });
         },
         GET_BANNER_NEWS(context , object){
-            axios.get(API.bannerNews)
-                .then(function(res){
+            axios.get(API.bannerNews).then(function(res){
                     if(res.statusTxt = "OK"){
-                        context.commit("get_banner_news",res.data.data);
+                        var obj = res.data.data;
+                        var arr = [];
+                        for(var item in obj){
+                            var t = {
+                                article_id : obj[item][1],
+                                image_url_big : obj[item][2]
+                            };
+                            arr.push(t);
+                        }
+                        context.commit("get_banner_news",arr);
                     }
                 }).catch(function(err){
                     console.log(err);
@@ -203,7 +190,7 @@ const store = new Vuex.Store({
             state.pentaKills = data[1].penta_kills;
             state.godlikeNum = data[1].god_like_num;
             state.killsTotal = data[1].kills_total;
-            state.totalMvp =  data[2].total_match_mvps + data[2].total_rank_mvps;
+            state.totalMvp =  data[0].total_match_mvps + data[0].total_rank_mvps;
         },
         get_player_base_detail(state , data){
             state.playerDetail = data.data1;
@@ -219,10 +206,18 @@ const store = new Vuex.Store({
             state.combatDetail = data;
         },
         get_heros_all(state , data){
-            state.herosAll = data;
+            var arr = [];
+            for(var item in data){
+                arr.push(data[item]);
+            }
+            state.herosAll = arr;
         },
         get_heros_free(state , data){
-            state.herosFree = data;
+            var arr = [];
+            for(var item in data){
+                arr.push(data[item]);
+            }
+            state.herosFree = arr;
         },
         get_hero_detail(state , data){
             state.heroDetail = data;
@@ -232,7 +227,6 @@ const store = new Vuex.Store({
         },
         get_banner_news(state , data){
             state.bannerNews = data.slice(0,5);
-            console.log(data);
         },
         get_newst_news(state , data){
             state.newstNews = state.newstNews.concat(data);

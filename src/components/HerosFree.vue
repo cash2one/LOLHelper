@@ -1,11 +1,11 @@
 <template>
   <div class="herosFree">
     <div class="herosFree-list">
-        <div class="herosFree-list-item" v-for="item in herosFree" :key="item.id" @click="getHeroDetail(item.id)">
-            <img :src="pics + item.key + '.png'">
+        <div class="herosFree-list-item" v-for="item in herosFree" :key="item.key" @click="getHeroDetail(item['key'])">
+            <img :src="pics + item['key'] + '.png'">
             <div class="herosFree-list-item-info">
-                <p>{{item.title}}</p>
-                <p>{{item.cname}}</p>
+                <p>{{item['title']}}</p>
+                <p>{{item['name']}}</p>
             </div>
         </div>
     </div>
@@ -31,7 +31,6 @@ export default {
   methods:{
     getHerosFree(){
         this.$store.dispatch("GET_HEROS_FREE");
-        console.log(this.$store.state.herosFree);
     },
     getHeroDetail(id){
         this.$router.push({name : "herosDetail" , params : {id : id}});

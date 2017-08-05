@@ -29,27 +29,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api/*':{
-        target:"http://lolapi.games-cube.com",
-        changeOrigin:true,
-        secure:false,
-        pathRewrite:{
-          '^/api':""
-        }
-      },
-      '/videoApi/*':{
-        target:"http://infoapi.games-cube.com",
-        changeOrigin:true,
-        secure:false,
-        pathRewrite:{
-          '^/videoApi':""
-        }
-      },
-      '/newsApi/*':{
         target:"http://lijiawei.com.cn:3333",
         changeOrigin:true,
         secure:false,
         pathRewrite:{
-          '^/newsApi':""
+          '^/api':""
         }
       }
     },

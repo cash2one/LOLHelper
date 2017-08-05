@@ -54,7 +54,7 @@ export default {
             this.dialog = true;
             return;
         }
-        this.$store.dispatch("get_players_search",{
+        this.$store.dispatch("GET_PLAYERS_SEARCH",{
             username : encodeURIComponent(this.username)
         });
 

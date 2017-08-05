@@ -1,13 +1,13 @@
 <template>
   <div class="videos">
     <div class="videos-list">
-        <div class="videos-list-item" v-for="item in videoList" :key="item.guid">
-            <a :href="item.content | getVideoSrc">
-                <img :src="item.img + '.png'">
+        <div class="videos-list-item" v-for="item in videoList" :key="item.game_id">
+            <a :href="item.video_url">
+                <img :src="item.image_url">
                 <p>{{item.title}}</p>
                 <p>
-                    {{item.createdate.slice(0,10)}}
-                    <span>{{parseInt(item.comments / 10000) | pv}}</span>
+                    {{item.publication_date.slice(0,10)}}
+                    <span>{{item.time_span | pv}}</span>
                 </p>
             </a>
         </div>
@@ -33,14 +33,10 @@ export default {
           this.$store.commit("set_title","最新视频");
       },
       getVideo(){
-          let params = {
-              p : "1"
-          };
-          this.$store.dispatch("GET_VIDEO_LIST",params);
+          this.$store.dispatch("GET_VIDEO_LIST");
       }
   },
   filters:{
-      getVideoSrc,
       pv
   }
 }

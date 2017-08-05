@@ -14,11 +14,16 @@ const pics = 'http://cdn.tgp.qq.com/pallas/images/champions_id/';
 export default {
   data(){
     return{
-        active:1
+        active:this.$route.name == "herosAll" ? 1 : 0
     }
   },
   created(){
       this.setTitle();
+  },
+  watch: {
+  '$route' (to, from) {
+        this.active = this.$route.name == "herosAll" ? 1 : 0;
+    }
   },
   methods:{
       setTitle(){
@@ -28,7 +33,6 @@ export default {
         var val = e.target.getAttribute("name");
         if(val !== this.$route.name){
             this.$router.push({name:val});
-            this.active = !this.active;
         }
       }
   },
